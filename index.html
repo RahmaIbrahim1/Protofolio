@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#090909" />
+    <meta name="description" content="Webdrift — pixels change. Taste stays." />
+    <title>Webdrift — Pixels change. Taste stays.</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="boot-screen" id="bootScreen" aria-label="Webdrift installer">
+      <div class="boot-scanlines" aria-hidden="true"></div>
+      <div class="installer-window">
+        <div class="installer-titlebar">
+          <span class="window-mark" aria-hidden="true">◧</span>
+          <span>Webdrift Installer 1984</span>
+          <span class="titlebar-dots" aria-hidden="true">▪ ▪ ▪</span>
+        </div>
+        <div class="installer-screen">
+          <div class="boot-brand" aria-hidden="true">WEB<span>DRIFT</span><i>®</i></div>
+          <div class="boot-copy">
+            <p class="boot-kicker">SYSTEM SOFTWARE · RELEASE 01.84</p>
+            <h1>Installing 1-bit charm<span class="cursor-block">_</span></h1>
+            <p class="boot-status"><span class="status-dot"></span> Preparing interface</p>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="Installation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="progress-fill"></span>
+          </div>
+          <div class="boot-footer">
+            <span class="remaining">Time remaining: <b>42 years</b></span>
+            <span>Please do not turn off your computer</span>
+          </div>
+        </div>
+        <div class="installer-controls">
+          <span>WEB.OS&nbsp; 1.984&nbsp; ·&nbsp; ANTWERP</span>
+          <button class="skip-button" id="skipInstall" type="button">Skip <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+      <div class="boot-caption">© WEB DRIFT SYSTEMS&nbsp; <span>PRESS SKIP TO CONTINUE</span></div>
+    </div>
+
+    <main class="site-shell" id="top">
+      <header class="site-header">
+        <a class="wordmark" href="#top" aria-label="Webdrift home">
+          <span class="wordmark-name">Webdrift</span>
+          <span class="wordmark-rule" aria-hidden="true"></span>
+          <span class="intro-index"><b>00</b> Intro</span>
+        </a>
+        <nav class="header-actions" aria-label="Main navigation">
+          <span class="local-time"><span>Antwerp</span><time id="antwerpTime">--:--</time></span>
+          <button class="era-toggle" id="eraToggle" type="button" aria-pressed="false">
+            <span class="era-icon" aria-hidden="true">▣</span>
+            <span id="eraLabel">Back to 1984</span>
+          </button>
+          <a class="header-cta" href="https://www.webdrift.be/en/contact">Start a project <span aria-hidden="true">↗</span></a>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="menuPanel">
+            <span>Menu</span><i aria-hidden="true"><b></b><b></b></i>
+          </button>
+        </nav>
+        <div class="menu-panel" id="menuPanel" hidden>
+          <p>OPEN FILE</p>
+          <a href="https://www.webdrift.be/en/work">01&nbsp; Work <span>↗</span></a>
+          <a href="https://www.webdrift.be/en/approach">02&nbsp; Approach <span>↗</span></a>
+          <a href="https://www.webdrift.be/en/studio">03&nbsp; Studio <span>↗</span></a>
+          <a href="https://www.webdrift.be/en/contact">04&nbsp; Contact <span>↗</span></a>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-coordinate coordinate-y">y 0.33</div>
+        <div class="hero-coordinate coordinate-x">x 0.70</div>
+        <div class="diagram" aria-hidden="true">
+          <span class="diagram-circle"></span>
+          <span class="diagram-cross diagram-cross-h"></span>
+          <span class="diagram-cross diagram-cross-v"></span>
+          <span class="diagram-core"></span>
+        </div>
+
+        <div class="figure-label"><i></i> Fig. 01 · Keypad</div>
+        <div class="keyboard-wrap" id="keyboardWrap">
+          <div class="keyboard-shadow" aria-hidden="true"></div>
+          <div class="macro-keyboard" role="group" aria-label="Interactive Webdrift keypad" tabindex="-1">
+            <div class="keyboard-top">
+              <div class="device-screen" aria-live="polite" aria-label="Keypad input display">
+                <div class="screen-brand">W<span>·</span>D</div>
+                <span class="screen-readout" id="screenReadout">READY_</span>
+                <span class="screen-status">INPUT / <b>LIVE</b></span>
+              </div>
+              <span class="device-led" aria-hidden="true"></span>
+              <button class="volume-knob" type="button" aria-label="Keypad control dial"><span></span></button>
+            </div>
+            <div class="key-grid" aria-label="Keypad keys">
+              <button class="key" type="button" data-code="Digit1" data-key="1" aria-label="Key 1"><span class="key-glyph">1</span><i>·</i></button>
+              <button class="key" type="button" data-code="Digit2" data-key="2" aria-label="Key 2"><span class="key-glyph">2</span><i>·</i></button>
+              <button class="key" type="button" data-code="Digit3" data-key="3" aria-label="Key 3"><span class="key-glyph">3</span><i>·</i></button>
+              <button class="key" type="button" data-code="Digit4" data-key="4" aria-label="Key 4"><span class="key-glyph">4</span><i>·</i></button>
+              <button class="key" type="button" data-code="Digit5" data-key="5" aria-label="Key 5"><span class="key-glyph">5</span><i>·</i></button>
+              <button class="key" type="button" data-code="Digit6" data-key="6" aria-label="Key 6"><span class="key-glyph">6</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyQ" data-key="Q" aria-label="Key Q"><span class="key-glyph">Q</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyW" data-key="W" aria-label="Key W"><span class="key-glyph">W</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyE" data-key="E" aria-label="Key E"><span class="key-glyph">E</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyR" data-key="R" aria-label="Key R"><span class="key-glyph">R</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyT" data-key="T" aria-label="Key T"><span class="key-glyph">T</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyY" data-key="Y" aria-label="Key Y"><span class="key-glyph">Y</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyA" data-key="A" aria-label="Key A"><span class="key-glyph">A</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyS" data-key="S" aria-label="Key S"><span class="key-glyph">S</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyD" data-key="D" aria-label="Key D"><span class="key-glyph">D</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyF" data-key="F" aria-label="Key F"><span class="key-glyph">F</span><i>·</i></button>
+              <button class="key" type="button" data-code="KeyG" data-key="G" aria-label="Key G"><span class="key-glyph">G</span><i>·</i></button>
+              <button class="key key-accent" type="button" data-code="Enter" data-key="↵" aria-label="Enter key"><span class="key-glyph">↵</span><i>⏎</i></button>
+            </div>
+            <div class="keyboard-foot"><span>W·D / 84</span><span>HID CONNECTED&nbsp; <i></i></span></div>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <p class="mobile-figure-label"><i></i> Fig. 01 · Keypad</p>
+          <h1 id="heroTitle"><span>Pixels change.</span><span>Taste stays.</span></h1>
+        </div>
+
+        <div class="hero-detail">
+          <p class="hero-description">Webdrift is a design and development studio in Antwerp. We design and build custom websites and web apps.</p>
+          <div class="hero-links">
+            <a class="project-link" href="https://www.webdrift.be/en#h-work"><span>View our projects</span><i aria-hidden="true">↗</i></a>
+            <a class="secondary-link" href="https://www.webdrift.be/en/contact">Start a project <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="hero-baseline"><span>Fig. 01 · Web design and development</span><span>Since 2022</span></div>
+      </section>
+    </main>
+  </body>
+</html>
