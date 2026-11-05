@@ -15,6 +15,7 @@
   const keyboardWrap = document.getElementById('keyboardWrap');
   const keyboard = document.querySelector('.macro-keyboard');
   const studioSection = document.querySelector('.studio-section');
+  const approachSection = document.querySelector('.approach-section');
   const studioStage = document.querySelector('.studio-stage');
   const studioStatement = document.getElementById('studioStatement');
   const studioFigure = document.querySelector('.studio-figure');
@@ -221,9 +222,12 @@
     studioFrame = 0;
     const rect = studioSection.getBoundingClientRect();
     const active = rect.top < window.innerHeight && rect.bottom > 76;
+    const approachRect = approachSection.getBoundingClientRect();
+    const approachActive = approachRect.top < window.innerHeight && approachRect.bottom > 76;
     body.classList.toggle('is-studio-active', active);
-    introNumber.textContent = active ? '01' : '00';
-    introTitle.textContent = active ? ' Studio' : ' Intro';
+    body.classList.toggle('is-approach-active', approachActive);
+    introNumber.textContent = approachActive ? '02' : active ? '01' : '00';
+    introTitle.textContent = approachActive ? ' Approach' : active ? ' Studio' : ' Intro';
 
     const travel = Math.max(1, studioSection.offsetHeight - studioStage.getBoundingClientRect().height);
     const sectionTop = rect.top + window.scrollY;
