@@ -5,12 +5,21 @@
   const progress = document.querySelector('.progress-track');
   const progressFill = document.querySelector('.progress-fill');
   const timeOutput = document.getElementById('antwerpTime');
+  const introIndex = document.querySelector('.intro-index');
+  const introNumber = introIndex.querySelector('b');
+  const introTitle = [...introIndex.childNodes].find((node) => node.nodeType === Node.TEXT_NODE);
   const eraToggle = document.getElementById('eraToggle');
   const eraLabel = document.getElementById('eraLabel');
   const menuToggle = document.getElementById('menuToggle');
   const menuPanel = document.getElementById('menuPanel');
   const keyboardWrap = document.getElementById('keyboardWrap');
   const keyboard = document.querySelector('.macro-keyboard');
+  const studioSection = document.querySelector('.studio-section');
+  const studioStage = document.querySelector('.studio-stage');
+  const studioStatement = document.getElementById('studioStatement');
+  const studioFigure = document.querySelector('.studio-figure');
+  const studioImage = document.querySelector('.studio-image-frame img');
+  const photoFragments = document.querySelector('.photo-fragments');
   const keys = [...document.querySelectorAll('.key')];
   const screenReadout = document.getElementById('screenReadout');
   const keyByCode = new Map(keys.map((key, index) => [key.dataset.code, { key, index }]));
@@ -35,6 +44,7 @@
   let readoutTimer;
   let rafId = 0;
   let pointer = { x: 0, y: 0 };
+  let studioFrame = 0;
 
   function finishInstall() {
     if (body.classList.contains('is-ready')) return;
@@ -183,4 +193,65 @@
     keyboard.style.setProperty('--tilt-x', '0deg');
     keyboard.style.setProperty('--tilt-y', '0deg');
   });
+
+  const studioWords = studioStatement.textContent.trim().split(/\s+/);
+  studioStatement.replaceChildren();
+  const wordNodes = studioWords.map((word, index) => {
+    const node = document.createElement('span');
+    node.textContent = word;
+    if (index >= studioWords.length - 5) node.classList.add('is-finish');
+    studioStatement.append(node, document.createTextNode(' '));
+    return node;
+  });
+
+  const fragmentCount = 16;
+  const verticalOffsets = [-0.4, 0.22, -0.26, 0.34, -0.16, 0.3, -0.38, 0.18, 0.4, -0.22, 0.28, -0.36, 0.18, -0.3, 0.34, -0.2];
+  const photoPieces = Array.from({ length: fragmentCount }, (_, index) => {
+    const piece = document.createElement('i');
+    piece.style.left = `${(index / fragmentCount) * 100}%`;
+    piece.style.width = `${100 / fragmentCount}%`;
+    piece.style.backgroundImage = `url("${studioImage.currentSrc || studioImage.src}")`;
+    piece.style.backgroundSize = `${fragmentCount * 100}% 100%`;
+    piece.style.backgroundPosition = `${(index / (fragmentCount - 1)) * 100}% center`;
+    photoFragments.append(piece);
+    return piece;
+  });
+
+  function updateStudio() {
+    studioFrame = 0;
+    const rect = studioSection.getBoundingClientRect();
+    const active = rect.top < window.innerHeight && rect.bottom > 76;
+    body.classList.toggle('is-studio-active', active);
+    introNumber.textContent = active ? '01' : '00';
+    introTitle.textContent = active ? ' Studio' : ' Intro';
+
+    const travel = Math.max(1, studioSection.offsetHeight - studioStage.getBoundingClientRect().height);
+    const sectionTop = rect.top + window.scrollY;
+    const progress = Math.max(0, Math.min(1, window.scrollY / (sectionTop + travel)));
+    const reveal = progress * (wordNodes.length + 2);
+    wordNodes.forEach((word, index) => {
+      word.classList.toggle('is-lit', index + 0.45 < reveal);
+      word.classList.toggle('is-next', index >= reveal && index < reveal + 1.4);
+    });
+
+    const frameHeight = studioImage.parentElement.getBoundingClientRect().height;
+    studioImage.style.opacity = `${0.16 + 0.84 * Math.pow(progress, 2.2)}`;
+    photoPieces.forEach((piece, index) => {
+      const stagger = (index / (fragmentCount - 1)) * 0.26;
+      const local = Math.max(0, Math.min(1, (progress - stagger) / 0.56));
+      const settle = local * local * (3 - 2 * local);
+      const offsetY = verticalOffsets[index] * frameHeight * (1 - settle);
+      piece.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+      piece.style.opacity = String(1 - Math.max(0, (progress - 0.92) / 0.08));
+    });
+    studioFigure.classList.toggle('is-revealed', progress > 0.94);
+  }
+
+  function requestStudioUpdate() {
+    if (studioFrame) return;
+    studioFrame = window.requestAnimationFrame(updateStudio);
+  }
+  window.addEventListener('scroll', requestStudioUpdate, { passive: true });
+  window.addEventListener('resize', requestStudioUpdate, { passive: true });
+  requestStudioUpdate();
 })();
