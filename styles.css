@@ -291,16 +291,40 @@ body.is-retro .site-shell { filter: sepia(.16) saturate(.76); }
   .studio-meta { bottom: 3%; }
 }
 
-/* Section three: static Design / Development composition. */
+/* Section three: Design / Development scroll story. */
 .approach-section { position: relative; isolation: isolate; width: 100%; height: 100svh; min-height: 680px; overflow: hidden; background: #090909; color: var(--paper); }
-.approach-marker { position: absolute; z-index: 3; top: 10.7%; left: 2.3vw; display: flex; align-items: center; gap: 8px; margin: 0; color: #98948f; font: 10px var(--mono); font-weight: 400; }
+.approach-marker { position: absolute; z-index: 4; top: 10.7%; left: 2.3vw; display: flex; align-items: center; gap: 8px; margin: 0; color: #98948f; font: 10px var(--mono); font-weight: 400; }
 .approach-marker i { width: 6px; height: 6px; background: var(--red); }
 .design-word, .development-word { position: absolute; z-index: 2; margin: 0; font-weight: 400; line-height: .88; letter-spacing: -.075em; white-space: nowrap; }
 .design-word { top: 24.8%; left: 2.5vw; color: #f3f1eb; font-size: clamp(86px, 7.6vw, 152px); }
-.macintosh-wrap { position: absolute; z-index: 1; top: 50.5%; left: 50%; display: grid; place-items: center; width: min(40vw, 760px); height: min(66svh, 560px); margin: 0; transform: translate(-50%, -50%); }
-.macintosh-wrap > img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
-.mac-screen-slot { position: absolute; top: 24%; left: 34%; width: 32%; height: 34%; pointer-events: none; }
+.macintosh-wrap { position: absolute; z-index: 1; top: 50.5%; left: 50%; display: grid; place-items: center; width: min(40vw, 760px); height: min(66svh, 560px); margin: 0; transform: translate(-50%, -50%); transform-origin: 50% 50%; }
+.macintosh-wrap > img { grid-area: 1 / 1; display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.macintosh-image--red { z-index: 2; opacity: 1; }
+.macintosh-image--beige { z-index: 1; opacity: 0; }
 .development-word { right: 2.3vw; bottom: 10.5%; color: #c7113a; font-size: clamp(82px, 7.5vw, 150px); }
+.approach-step-nav { position: absolute; z-index: 4; top: 17%; right: 2.8vw; width: min(16vw, 240px); font: 10px var(--mono); }
+.approach-step-nav ol { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.approach-step-nav li { display: flex; gap: 10px; color: #686663; white-space: nowrap; }
+.approach-step-nav li.is-active { color: var(--paper); }
+.approach-step-number { color: #88847f; }
+.approach-step-stage { position: absolute; z-index: 3; top: 55%; left: 3.5vw; width: clamp(104px, 25vw, 420px); min-height: 220px; pointer-events: none; }
+.approach-step { position: absolute; inset: 0 auto auto 0; width: 100%; opacity: 0; }
+.approach-step.is-active { opacity: 1; }
+.approach-step-kicker { color: #96918b; font: 10px var(--mono); }
+.approach-step-copy h4 { margin: 9px 0 7px; color: var(--paper); font-size: clamp(18px, 1.5vw, 25px); font-weight: 500; letter-spacing: -.04em; }
+.approach-step-copy p { max-width: 37ch; margin: 0; color: #b3b0aa; font-size: clamp(11px, .72vw, 14px); line-height: 1.55; }
+.approach-step-visual { width: 100%; min-height: 92px; margin-top: 17px; overflow: hidden; border: 1px solid rgba(243, 241, 235, .18); background: rgba(15, 15, 15, .94); }
+.approach-visual-window { padding: 10px 12px 12px; color: #d2d0ca; font: 10px var(--mono); }
+.approach-visual-title { display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid rgba(243, 241, 235, .14); color: #9c9892; }
+.approach-visual-window dl { display: grid; grid-template-columns: 72px 1fr; gap: 7px 10px; margin: 12px 0 0; }
+.approach-visual-window dt { color: #eeeae3; }
+.approach-visual-window dd { margin: 0; color: #8e8a85; }
+.approach-design-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
+.approach-design-preview i { height: 25px; background: #272626; }
+.approach-design-preview b { height: 37px; background: #373331; }
+.approach-visual-window code { display: block; padding-top: 10px; color: #c9d7a1; font: inherit; line-height: 1.5; }
+.approach-live-window strong { display: block; margin-top: 7px; color: #f3f1eb; font: 500 25px var(--sans); letter-spacing: -.04em; }
+.approach-live-window > span:last-child { color: #96918b; }
 body.is-approach-active .site-header { background: #090909; }
 
 @media (max-width: 1150px) {
@@ -309,12 +333,26 @@ body.is-approach-active .site-header { background: #090909; }
   .design-word { left: 3vw; font-size: clamp(82px, 9vw, 122px); }
   .macintosh-wrap { width: 48vw; height: 64svh; }
   .development-word { right: 3vw; font-size: clamp(78px, 8.8vw, 112px); }
+  .approach-step-nav { right: 3vw; width: min(22vw, 220px); }
 }
 @media (max-width: 760px) {
   .approach-section { min-height: 740px; }
   .approach-marker { top: 10%; left: 20px; font-size: 9px; }
   .design-word { top: 20%; left: 6%; font-size: clamp(76px, 18vw, 108px); }
   .macintosh-wrap { top: 50%; width: 92vw; height: 56svh; }
-  .mac-screen-slot { top: 24%; left: 34%; width: 32%; height: 34%; }
   .development-word { right: 6%; bottom: 10%; font-size: clamp(42px, 11.4vw, 68px); }
+  .approach-step-nav { top: 12%; right: 5%; width: 30%; font-size: 9px; }
+  .approach-step-nav ol { gap: 8px; }
+  .approach-step-stage { top: 55%; left: 4%; width: 25%; min-width: 104px; }
+  .approach-step-kicker { font-size: 8px; }
+  .approach-step-copy h4 { margin: 5px 0; font-size: 14px; }
+  .approach-step-copy p { font-size: 9px; line-height: 1.35; }
+  .approach-step-visual { min-height: 70px; margin-top: 8px; }
+  .approach-visual-window { padding: 6px; font-size: 7px; }
+  .approach-visual-window dl { grid-template-columns: 38px 1fr; gap: 4px; margin-top: 6px; }
+  .approach-visual-title { padding-bottom: 5px; }
+  .approach-design-preview { gap: 3px; margin-top: 6px; }
+  .approach-design-preview i { height: 15px; }
+  .approach-design-preview b { height: 20px; }
+  .approach-live-window strong { margin-top: 4px; font-size: 16px; }
 }
