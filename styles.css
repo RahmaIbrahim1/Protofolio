@@ -299,8 +299,33 @@ body.is-retro .site-shell { filter: sepia(.16) saturate(.76); }
 .design-word { top: 24.8%; left: 2.5vw; color: #f3f1eb; font-size: clamp(86px, 7.6vw, 152px); }
 .macintosh-wrap { position: absolute; z-index: 1; top: 50.5%; left: 50%; display: grid; place-items: center; width: min(40vw, 760px); height: min(66svh, 560px); margin: 0; transform: translate(-50%, -50%); transform-origin: 50% 50%; }
 .macintosh-wrap > img { grid-area: 1 / 1; display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
-.macintosh-image--red { z-index: 2; opacity: 1; }
-.macintosh-image--beige { z-index: 1; opacity: 0; }
+.macintosh-image { z-index: 1; opacity: 1; }
+.macintosh-red-tint { position: relative; z-index: 2; grid-area: 1 / 1; align-self: center; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: visible; pointer-events: none; mix-blend-mode: color; opacity: 1; }
+.mac-screen-canvas { position: relative; z-index: 3; grid-area: 1 / 1; align-self: center; width: 100%; aspect-ratio: 3 / 2; pointer-events: none; }
+.mac-screen { position: absolute; top: 23.4%; left: 36.4%; width: 27.2%; height: 28.3%; overflow: hidden; isolation: isolate; border-radius: 7% / 8%; background: #cbd7d1; box-shadow: inset 0 0 18px #263a354a, inset 0 0 2px 1px #f5fff1a6; opacity: 0; }
+.mac-screen::before { z-index: 5; position: absolute; inset: 0; content: ""; pointer-events: none; background: repeating-linear-gradient(0deg, #15221b16 0 1px, transparent 1px 3px), radial-gradient(ellipse at 50% 48%, transparent 48%, #18251c28 100%); box-shadow: inset 0 0 16px #17241d45; }
+.mac-screen-ui { position: absolute; inset: 0; z-index: 1; overflow: hidden; padding: 5.5% 6.5%; color: #17221e; background: linear-gradient(145deg, #d2ddd6, #c0cec7 58%, #aebdb6); font: clamp(5px, .47vw, 8px) var(--mono); line-height: 1.35; opacity: 0; }
+.mac-screen-titlebar { display: flex; align-items: center; justify-content: space-between; min-height: 12%; padding: 0 0 3%; border-bottom: 1px solid #25342e99; color: #23332d; font-size: .8em; letter-spacing: .04em; }
+.mac-screen-titlebar > span:last-child { font-size: .74em; letter-spacing: .06em; }
+.mac-screen-document { width: 100%; height: 78%; margin-top: 4%; padding: 4% 5%; border: 1px solid #263630b3; background: #d4ded8; }
+.mac-screen-document h4 { margin: 0 0 5%; font: 500 1.55em var(--sans); letter-spacing: -.06em; }
+.mac-screen-document ul { display: grid; gap: 3%; margin: 0; padding: 0; list-style: none; }
+.mac-screen-document li { display: flex; align-items: center; gap: .55em; white-space: nowrap; }
+.mac-screen-document li::before { width: .7em; height: .7em; flex: 0 0 auto; border: 1px solid #1d2b25; content: ""; }
+.mac-wireframe { display: grid; grid-template-rows: 10% 1fr 28%; gap: 5%; height: 82%; margin-top: 4%; padding: 3%; border: 1px solid #283831; }
+.wireframe-nav { border-bottom: 1px solid #263832; background: repeating-linear-gradient(90deg, transparent 0 14%, #43534c 14% 15%, transparent 15% 18%); }
+.wireframe-hero { display: grid; align-content: center; gap: 8%; padding: 7%; border: 1px solid #37463f; background: repeating-linear-gradient(135deg, #aab9b1 0 3px, #c4d0ca 3px 6px); }
+.wireframe-hero i, .wireframe-hero b { display: block; height: 2px; background: #56665e; }
+.wireframe-hero b { width: 43%; height: 3px; background: #24342d; }
+.wireframe-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4%; }
+.wireframe-cards i { border: 1px solid #36463e; background: #c5d1ca; }
+.mac-code-window { height: 82%; margin-top: 4%; padding: 2% 3%; border: 1px solid #2a3b33; background: #d1dcd5; }
+.mac-code-status { color: #596a60; font-size: .68em; letter-spacing: .03em; }
+.mac-code-window pre { position: relative; margin: 4% 0 0; white-space: pre-wrap; overflow-wrap: anywhere; color: #1d3328; font: inherit; line-height: 1.5; }
+.mac-code-cursor { display: inline-block; width: .55em; height: 1em; vertical-align: -.15em; background: #304c3d; }
+.mac-launch-preview { display: flex; height: 80%; flex-direction: column; justify-content: center; margin: 4% 0 0; padding: 0 5%; border: 1px solid #34443c; background: radial-gradient(ellipse at 48% 42%, #e3eae4 0, #c4d1c9 76%); }
+.mac-launch-preview strong { display: block; color: #172922; font: 500 clamp(12px, 1.35vw, 24px) var(--sans); letter-spacing: -.07em; line-height: 1; }
+.mac-launch-preview span { margin-top: 4%; color: #3c4b43; font-size: .83em; }
 .development-word { right: 2.3vw; bottom: 10.5%; color: #c7113a; font-size: clamp(82px, 7.5vw, 150px); }
 .approach-step-nav { position: absolute; z-index: 4; top: 17%; right: 2.8vw; width: min(16vw, 240px); font: 10px var(--mono); }
 .approach-step-nav ol { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
@@ -347,12 +372,5 @@ body.is-approach-active .site-header { background: #090909; }
   .approach-step-kicker { font-size: 8px; }
   .approach-step-copy h4 { margin: 5px 0; font-size: 14px; }
   .approach-step-copy p { font-size: 9px; line-height: 1.35; }
-  .approach-step-visual { min-height: 70px; margin-top: 8px; }
-  .approach-visual-window { padding: 6px; font-size: 7px; }
-  .approach-visual-window dl { grid-template-columns: 38px 1fr; gap: 4px; margin-top: 6px; }
-  .approach-visual-title { padding-bottom: 5px; }
-  .approach-design-preview { gap: 3px; margin-top: 6px; }
-  .approach-design-preview i { height: 15px; }
-  .approach-design-preview b { height: 20px; }
-  .approach-live-window strong { margin-top: 4px; font-size: 16px; }
+  .mac-screen { border-radius: 6% / 7%; }
 }
