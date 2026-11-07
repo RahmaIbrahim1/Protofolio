@@ -7,6 +7,8 @@
     <meta name="description" content="Webdrift — pixels change. Taste stays." />
     <title>Webdrift — Pixels change. Taste stays.</title>
     <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
     <script src="./script.js" defer></script>
   </head>
   <body>
@@ -157,9 +159,72 @@
       <section class="approach-section" id="approach" aria-labelledby="approachLabel">
         <h2 class="approach-marker" id="approachLabel"><i aria-hidden="true"></i><span>Approach</span></h2>
         <h3 class="design-word">Design</h3>
+        <nav class="approach-step-nav" aria-label="Project steps">
+          <ol>
+            <li class="is-active" data-approach-nav="0" aria-current="step"><span class="approach-step-number">01</span><span>Brief</span></li>
+            <li data-approach-nav="1"><span class="approach-step-number">02</span><span>Design</span></li>
+            <li data-approach-nav="2"><span class="approach-step-number">03</span><span>Build</span></li>
+            <li data-approach-nav="3"><span class="approach-step-number">04</span><span>Launch</span></li>
+          </ol>
+        </nav>
+        <div class="approach-step-stage">
+          <article class="approach-step is-active" data-approach-step="0" aria-hidden="false">
+            <div class="approach-step-copy">
+              <span class="approach-step-kicker">01 / Approach</span>
+              <h4>The brief</h4>
+              <p>We start from your goals, your audience and what the site needs to do for both.</p>
+            </div>
+            <div class="approach-step-visual" aria-hidden="true">
+              <div class="approach-visual-window">
+                <div class="approach-visual-title"><span>brief.txt</span><span>— □ ×</span></div>
+                <dl><dt>Goals</dt><dd>What should change?</dd><dt>Audience</dt><dd>Who is it for?</dd></dl>
+              </div>
+            </div>
+          </article>
+          <article class="approach-step" data-approach-step="1" aria-hidden="true">
+            <div class="approach-step-copy">
+              <span class="approach-step-kicker">02 / Approach</span>
+              <h4>Design</h4>
+              <p>Structure, interface and art direction, worked out in Figma for every screen size.</p>
+            </div>
+            <div class="approach-step-visual" aria-hidden="true">
+              <div class="approach-visual-window">
+                <div class="approach-visual-title"><span>design.fig</span><span>— □ ×</span></div>
+                <div class="approach-design-preview"><i></i><i></i><i></i><b></b><b></b><b></b></div>
+              </div>
+            </div>
+          </article>
+          <article class="approach-step" data-approach-step="2" aria-hidden="true">
+            <div class="approach-step-copy">
+              <span class="approach-step-kicker">03 / Approach</span>
+              <h4>Build</h4>
+              <p>Fully custom-built, with a CMS your team runs itself and animation where it adds something.</p>
+            </div>
+            <div class="approach-step-visual" aria-hidden="true">
+              <div class="approach-visual-window">
+                <div class="approach-visual-title"><span>index.html</span><span>— □ ×</span></div>
+                <code>&lt;section class="hero"&gt;<br>&nbsp;&nbsp;&lt;h1&gt;Hello.&lt;/h1&gt;<br>&lt;/section&gt;</code>
+              </div>
+            </div>
+          </article>
+          <article class="approach-step" data-approach-step="3" aria-hidden="true">
+            <div class="approach-step-copy">
+              <span class="approach-step-kicker">04 / Approach</span>
+              <h4>Launch</h4>
+              <p>Forms, integrations, languages, tracking and technical SEO in order before launch. After that, we stay on.</p>
+            </div>
+            <div class="approach-step-visual" aria-hidden="true">
+              <div class="approach-visual-window approach-live-window">
+                <div class="approach-visual-title"><span>webdrift.be</span><span>● live</span></div>
+                <strong>Live.</strong>
+                <span>Launched and looked after.</span>
+              </div>
+            </div>
+          </article>
+        </div>
         <figure class="macintosh-wrap">
-          <img src="https://cdn.sanity.io/images/05zanele/darkroom/763116e303e94da529ca1429a0cb603b4c2a0234-1536x1024.webp?auto=format&amp;q=80&amp;w=1600" alt="A vintage Macintosh computer with hello on its screen" loading="lazy" />
-          <div class="mac-screen-slot" data-screen-slot aria-hidden="true"></div>
+          <img class="macintosh-image macintosh-image--red" src="./a_clean_isolated_product_style_render_of_the_clas.png" alt="A red vintage Macintosh computer with hello on its screen" loading="eager" decoding="async" />
+          <img class="macintosh-image macintosh-image--beige" src="https://cdn.sanity.io/images/05zanele/darkroom/763116e303e94da529ca1429a0cb603b4c2a0234-1536x1024.webp?auto=format&amp;q=80&amp;w=1600" alt="" aria-hidden="true" loading="eager" decoding="async" />
         </figure>
         <h3 class="development-word">Development</h3>
       </section>
