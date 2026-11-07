@@ -19,8 +19,11 @@
   const designWord = document.querySelector('.design-word');
   const developmentWord = document.querySelector('.development-word');
   const macintoshWrap = document.querySelector('.macintosh-wrap');
-  const macRedImage = document.querySelector('.macintosh-image--red');
-  const macBeigeImage = document.querySelector('.macintosh-image--beige');
+  const macintoshImage = document.querySelector('.macintosh-image');
+  const macintoshRedTint = document.querySelector('.macintosh-red-tint');
+  const macScreen = document.querySelector('.mac-screen');
+  const macScreenStates = [...document.querySelectorAll('[data-screen-state]')];
+  const buildCode = document.querySelector('[data-build-code]');
   const approachStepNavItems = [...document.querySelectorAll('[data-approach-nav]')];
   const approachSteps = [...document.querySelectorAll('[data-approach-step]')];
   const approachMarker = document.querySelector('.approach-marker');
@@ -271,12 +274,13 @@
     entranceDuration: 1,
     stepsStart: 1.55,
     stepSpacing: 0.9,
+    screenFadeDuration: 0.24,
     zoomStart: 5.25,
     zoomDuration: 1.35,
     zoomOverscan: 1.04,
-    screenWidthRatio: 0.27,
-    screenHeightRatio: 0.29,
-    screenCenterYRatio: 0.38,
+    screenWidthRatio: 0.272,
+    screenHeightRatio: 0.283,
+    screenCenterYRatio: 0.3755,
     scrollViewportMultiplier: 5.2
   };
   const approachStepStartTimes = approachSteps.map((_, index) => approachAnimation.stepsStart + index * approachAnimation.stepSpacing);
@@ -304,11 +308,15 @@
   }
 
   function setActiveApproachStep(timelineTime) {
-    let activeIndex = 0;
-    if (timelineTime >= approachAnimation.zoomStart) activeIndex = -1;
-    else approachStepStartTimes.forEach((startTime, index) => {
-      if (timelineTime >= startTime) activeIndex = index;
-    });
+    let activeIndex = -1;
+    if (timelineTime < approachAnimation.zoomStart) {
+      approachStepStartTimes.forEach((startTime, index) => {
+        if (timelineTime >= startTime) activeIndex = index;
+      });
+    }
+    const activeScreenIndex = activeIndex === -1 && timelineTime >= approachAnimation.zoomStart
+      ? macScreenStates.length - 1
+      : activeIndex;
 
     approachStepNavItems.forEach((item, index) => {
       const active = index === activeIndex;
@@ -320,13 +328,14 @@
       step.classList.toggle('is-active', index === activeIndex);
       step.setAttribute('aria-hidden', String(index !== activeIndex));
     });
+    macScreenStates.forEach((stage, index) => stage.setAttribute('aria-hidden', String(index !== activeScreenIndex)));
   }
 
   function getMacintoshZoomTarget() {
     const width = macintoshWrap.offsetWidth;
     const height = macintoshWrap.offsetHeight;
-    const imageWidth = macBeigeImage.naturalWidth || macRedImage.naturalWidth || 1536;
-    const imageHeight = macBeigeImage.naturalHeight || macRedImage.naturalHeight || 1024;
+    const imageWidth = macintoshImage.naturalWidth || 1536;
+    const imageHeight = macintoshImage.naturalHeight || 1024;
     const containScale = Math.min(width / imageWidth, height / imageHeight);
     const contentWidth = imageWidth * containScale;
     const contentHeight = imageHeight * containScale;
@@ -346,11 +355,7 @@
     };
   }
 
-  function createApproachTimeline(redReady, beigeReady) {
-    if (!redReady && beigeReady) {
-      macRedImage.style.opacity = '0';
-      macBeigeImage.style.opacity = '1';
-    }
+  function createApproachTimeline() {
     if (!window.gsap || !window.ScrollTrigger || !macintoshWrap) return;
 
     gsap.registerPlugin(ScrollTrigger);
@@ -381,16 +386,35 @@
       .to(developmentWord, { x: () => -Math.min(window.innerWidth * 0.04, 78), fontWeight: 500, duration: 0.8, ease: 'power1.out' }, 0.2)
       .fromTo(approachStepNavItems, { x: 22, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, stagger: 0.1, ease: 'power2.out' }, 0.7);
 
+    // The red tint and Brief interface transition finish as Brief becomes active.
+    approachTimeline
+      .to(macintoshRedTint, { opacity: 0, duration: approachAnimation.stepsStart, ease: 'none' }, 0)
+      .to(macScreen, { opacity: 1, duration: approachAnimation.stepsStart, ease: 'none' }, 0)
+      .fromTo(macScreenStates[0], { opacity: 0, y: 3 }, { opacity: 1, y: 0, duration: approachAnimation.stepsStart, ease: 'none' }, 0);
+
     approachSteps.forEach((step, index) => {
       const stepStart = approachStepStartTimes[index];
-      const visual = step.querySelector('.approach-step-visual');
       if (index > 0) {
         approachTimeline.to(approachSteps[index - 1], { opacity: 0, y: -12, duration: 0.2 }, stepStart);
       }
-      approachTimeline
-        .fromTo(step, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.28, ease: 'power1.out' }, stepStart)
-        .fromTo(visual, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.48, ease: 'power2.out' }, stepStart + 0.04);
+      approachTimeline.fromTo(step, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.28, ease: 'power1.out' }, stepStart);
+
+      if (index > 0) {
+        approachTimeline.to(macScreenStates[index - 1], { opacity: 0, y: -2, duration: approachAnimation.screenFadeDuration }, stepStart);
+        approachTimeline.fromTo(macScreenStates[index], { opacity: 0, y: 3 }, { opacity: 1, y: 0, duration: approachAnimation.screenFadeDuration }, stepStart);
+      }
     });
+
+    if (buildCode) {
+      const buildSource = buildCode.dataset.buildSource || '';
+      const buildTyping = { characters: 0 };
+      approachTimeline.to(buildTyping, {
+        characters: buildSource.length,
+        duration: 0.62,
+        snap: { characters: 1 },
+        onUpdate: () => { buildCode.textContent = buildSource.slice(0, buildTyping.characters); }
+      }, approachStepStartTimes[2] + 0.16);
+    }
 
     const zoomStart = approachAnimation.zoomStart;
     const zoomDuration = approachAnimation.zoomDuration;
@@ -408,19 +432,13 @@
         ease: 'power3.in'
       }, zoomStart);
 
-    if (redReady && beigeReady) {
-      approachTimeline
-        .to(macRedImage, { opacity: 0, duration: zoomDuration, ease: 'none' }, zoomStart)
-        .to(macBeigeImage, { opacity: 1, duration: zoomDuration, ease: 'none' }, zoomStart);
-    }
     if (paperFade) {
       approachTimeline.to(paperFade, { opacity: 1, duration: 0.6 }, zoomStart + zoomDuration * 0.55);
     }
-    setActiveApproachStep(0);
+    setActiveApproachStep(approachTimeline.time());
   }
 
-  Promise.all([waitForImage(macRedImage), waitForImage(macBeigeImage)])
-    .then(([redReady, beigeReady]) => createApproachTimeline(redReady, beigeReady));
+  waitForImage(macintoshImage).then(() => createApproachTimeline());
   window.addEventListener('scroll', requestStudioUpdate, { passive: true });
   window.addEventListener('resize', requestStudioUpdate, { passive: true });
   requestStudioUpdate();
