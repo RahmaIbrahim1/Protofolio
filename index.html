@@ -161,24 +161,18 @@
         <h3 class="design-word">Design</h3>
         <nav class="approach-step-nav" aria-label="Project steps">
           <ol>
-            <li class="is-active" data-approach-nav="0" aria-current="step"><span class="approach-step-number">01</span><span>Brief</span></li>
+            <li data-approach-nav="0"><span class="approach-step-number">01</span><span>Brief</span></li>
             <li data-approach-nav="1"><span class="approach-step-number">02</span><span>Design</span></li>
             <li data-approach-nav="2"><span class="approach-step-number">03</span><span>Build</span></li>
             <li data-approach-nav="3"><span class="approach-step-number">04</span><span>Launch</span></li>
           </ol>
         </nav>
         <div class="approach-step-stage">
-          <article class="approach-step is-active" data-approach-step="0" aria-hidden="false">
+          <article class="approach-step" data-approach-step="0" aria-hidden="true">
             <div class="approach-step-copy">
               <span class="approach-step-kicker">01 / Approach</span>
               <h4>The brief</h4>
               <p>We start from your goals, your audience and what the site needs to do for both.</p>
-            </div>
-            <div class="approach-step-visual" aria-hidden="true">
-              <div class="approach-visual-window">
-                <div class="approach-visual-title"><span>brief.txt</span><span>— □ ×</span></div>
-                <dl><dt>Goals</dt><dd>What should change?</dd><dt>Audience</dt><dd>Who is it for?</dd></dl>
-              </div>
             </div>
           </article>
           <article class="approach-step" data-approach-step="1" aria-hidden="true">
@@ -187,24 +181,12 @@
               <h4>Design</h4>
               <p>Structure, interface and art direction, worked out in Figma for every screen size.</p>
             </div>
-            <div class="approach-step-visual" aria-hidden="true">
-              <div class="approach-visual-window">
-                <div class="approach-visual-title"><span>design.fig</span><span>— □ ×</span></div>
-                <div class="approach-design-preview"><i></i><i></i><i></i><b></b><b></b><b></b></div>
-              </div>
-            </div>
           </article>
           <article class="approach-step" data-approach-step="2" aria-hidden="true">
             <div class="approach-step-copy">
               <span class="approach-step-kicker">03 / Approach</span>
               <h4>Build</h4>
               <p>Fully custom-built, with a CMS your team runs itself and animation where it adds something.</p>
-            </div>
-            <div class="approach-step-visual" aria-hidden="true">
-              <div class="approach-visual-window">
-                <div class="approach-visual-title"><span>index.html</span><span>— □ ×</span></div>
-                <code>&lt;section class="hero"&gt;<br>&nbsp;&nbsp;&lt;h1&gt;Hello.&lt;/h1&gt;<br>&lt;/section&gt;</code>
-              </div>
             </div>
           </article>
           <article class="approach-step" data-approach-step="3" aria-hidden="true">
@@ -213,18 +195,43 @@
               <h4>Launch</h4>
               <p>Forms, integrations, languages, tracking and technical SEO in order before launch. After that, we stay on.</p>
             </div>
-            <div class="approach-step-visual" aria-hidden="true">
-              <div class="approach-visual-window approach-live-window">
-                <div class="approach-visual-title"><span>webdrift.be</span><span>● live</span></div>
-                <strong>Live.</strong>
-                <span>Launched and looked after.</span>
-              </div>
-            </div>
           </article>
         </div>
         <figure class="macintosh-wrap">
-          <img class="macintosh-image macintosh-image--red" src="./a_clean_isolated_product_style_render_of_the_clas.png" alt="A red vintage Macintosh computer with hello on its screen" loading="eager" decoding="async" />
-          <img class="macintosh-image macintosh-image--beige" src="https://cdn.sanity.io/images/05zanele/darkroom/763116e303e94da529ca1429a0cb603b4c2a0234-1536x1024.webp?auto=format&amp;q=80&amp;w=1600" alt="" aria-hidden="true" loading="eager" decoding="async" />
+          <img class="macintosh-image" src="https://cdn.sanity.io/images/05zanele/darkroom/763116e303e94da529ca1429a0cb603b4c2a0234-1536x1024.webp?w=1600&amp;auto=format&amp;q=80" alt="A Macintosh with handwritten hello on its CRT screen" loading="eager" decoding="async" />
+          <svg class="macintosh-red-tint" viewBox="0 0 1536 1024" aria-hidden="true" focusable="false">
+            <path fill="#f21a31" fill-rule="evenodd" d="M 497 112 C 468 112 446 130 446 158 L 446 817 C 446 839 453 852 470 861 L 470 906 C 470 920 479 928 494 928 L 1072 928 C 1087 928 1095 920 1095 906 L 1095 861 C 1089 852 1092 839 1092 817 L 1092 158 C 1092 130 1070 112 1041 112 Z M 588 210 C 572 210 560 222 560 239 L 560 544 C 560 561 573 574 589 574 L 956 574 C 973 574 985 561 985 544 L 985 239 C 985 222 973 210 956 210 Z" />
+          </svg>
+          <div class="mac-screen-canvas">
+            <div class="mac-screen" role="group" aria-label="Macintosh CRT project interface">
+              <article class="mac-screen-ui mac-screen-ui--brief" data-screen-state="0" aria-hidden="true">
+                <div class="mac-screen-titlebar"><span>brief.txt</span><span>▪ ▪ ▪</span></div>
+                <div class="mac-screen-document">
+                  <h4>The brief</h4>
+                  <ul><li>Goals</li><li>Audience</li><li>What the site must do</li></ul>
+                </div>
+              </article>
+              <article class="mac-screen-ui mac-screen-ui--design" data-screen-state="1" aria-hidden="true">
+                <div class="mac-screen-titlebar"><span>design.fig</span><span>▪ ▪ ▪</span></div>
+                <div class="mac-wireframe" aria-label="Website wireframe preview">
+                  <div class="wireframe-nav"></div>
+                  <div class="wireframe-hero"><i></i><b></b></div>
+                  <div class="wireframe-cards"><i></i><i></i><i></i></div>
+                </div>
+              </article>
+              <article class="mac-screen-ui mac-screen-ui--build" data-screen-state="2" aria-hidden="true">
+                <div class="mac-screen-titlebar"><span>index.html</span><span>▪ ▪ ▪</span></div>
+                <div class="mac-code-window">
+                  <span class="mac-code-status">BUILD / LIVE PREVIEW</span>
+                  <pre><code data-build-code data-build-source="&lt;section class=&quot;hero&quot;&gt;&#10;  &lt;h1&gt;Hello.&lt;/h1&gt;&#10;&lt;/section&gt;"></code><i class="mac-code-cursor" aria-hidden="true"></i></pre>
+                </div>
+              </article>
+              <article class="mac-screen-ui mac-screen-ui--launch" data-screen-state="3" aria-hidden="true">
+                <div class="mac-screen-titlebar"><span>webdrift.be</span><span>● live</span></div>
+                <div class="mac-launch-preview"><strong>Live.</strong><span>Launched and looked after.</span></div>
+              </article>
+            </div>
+          </div>
         </figure>
         <h3 class="development-word">Development</h3>
       </section>
