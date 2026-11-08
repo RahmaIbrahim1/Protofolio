@@ -7,8 +7,8 @@
     <meta name="description" content="Webdrift — pixels change. Taste stays." />
     <title>Webdrift — Pixels change. Taste stays.</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
+    <script src="./vendor/gsap.min.js" defer></script>
+    <script src="./vendor/ScrollTrigger.min.js" defer></script>
     <script src="./script.js" defer></script>
   </head>
   <body>
@@ -234,7 +234,166 @@
           </div>
         </figure>
         <h3 class="development-word">Development</h3>
+        <!-- End of the Macintosh zoom: the CRT whites out into paper, the surface of the next section. -->
+        <div class="paperfade" aria-hidden="true"></div>
+      </section>
+
+      <section class="work" id="work" aria-labelledby="workHeading">
+        <div class="wk-head">
+          <h2 id="workHeading" aria-label="Selected work" data-split>Selected work</h2>
+          <p class="wk-note">Recent websites, designed and built to measure by the same small studio.</p>
+        </div>
+
+        <div class="stage" id="stage">
+          <div class="shots">
+            <div class="shot">
+              <figure class="dev">
+                <img src="https://cdn.sanity.io/images/05zanele/darkroom/e32ecbdc530f55d3fa03aa62a7779a92b02249d8-1672x941.jpg?w=1600&amp;auto=format&amp;q=80" alt="A MEGA Charge team member in a hi-vis yellow jacket with the logo on the back looks at a parked lorry." loading="lazy" decoding="async" />
+                <img class="safe" src="https://cdn.sanity.io/images/05zanele/darkroom/e32ecbdc530f55d3fa03aa62a7779a92b02249d8-1672x941.jpg?w=1600&amp;auto=format&amp;q=80" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <div class="shade" aria-hidden="true"></div>
+            </div>
+            <div class="shot">
+              <figure class="dev">
+                <img src="https://cdn.sanity.io/images/05zanele/darkroom/1ae23f40131182628d3aeeb3cd1deaf7dcef1876-1340x893.jpg?w=1600&amp;auto=format&amp;q=80" alt="A wooden house with large windows, warm light inside and bare trees reflected in the glass." loading="lazy" decoding="async" />
+                <img class="safe" src="https://cdn.sanity.io/images/05zanele/darkroom/1ae23f40131182628d3aeeb3cd1deaf7dcef1876-1340x893.jpg?w=1600&amp;auto=format&amp;q=80" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <div class="shade" aria-hidden="true"></div>
+            </div>
+            <div class="shot">
+              <figure class="dev">
+                <img src="https://cdn.sanity.io/images/05zanele/darkroom/bfcb765fec1d2274ba09d2b53d41ed7296757a50-1440x1167.jpg?w=1600&amp;auto=format&amp;q=80" alt="A lorry with a blue and yellow trailer on a sunny motorway between mountains." loading="lazy" decoding="async" />
+                <img class="safe" src="https://cdn.sanity.io/images/05zanele/darkroom/bfcb765fec1d2274ba09d2b53d41ed7296757a50-1440x1167.jpg?w=1600&amp;auto=format&amp;q=80" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <div class="shade" aria-hidden="true"></div>
+            </div>
+            <div class="shot">
+              <figure class="dev">
+                <img src="https://cdn.sanity.io/images/05zanele/darkroom/5817985e2122343279d519ae88809ee415d902c0-2400x1600.jpg?w=1600&amp;auto=format&amp;q=80" alt="A group of young people laughing and holding hands in a circle under a bright blue sky." loading="lazy" decoding="async" />
+                <img class="safe" src="https://cdn.sanity.io/images/05zanele/darkroom/5817985e2122343279d519ae88809ee415d902c0-2400x1600.jpg?w=1600&amp;auto=format&amp;q=80" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <div class="shade" aria-hidden="true"></div>
+            </div>
+          </div>
+          <span class="w-slit" aria-hidden="true"></span>
+
+          <div class="w-ui">
+            <div class="w-top meta">
+              <div class="w-count" aria-hidden="true"><span class="cur" id="wCur"><span>01</span></span><span>/ 04</span></div>
+              <ol class="w-index" id="wIndex" aria-label="Projects">
+                <li><button type="button" data-go="0" class="on">MEGA Charge</button></li>
+                <li><button type="button" data-go="1">Hillside</button></li>
+                <li><button type="button" data-go="2">Xwift</button></li>
+                <li><button type="button" data-go="3">Trendwolves</button></li>
+              </ol>
+              <div class="w-tagline"><span id="wSector">E-mobility &amp; charging infrastructure</span></div>
+            </div>
+            <span></span>
+            <div class="w-bot">
+              <div class="w-names">
+                <h3 class="w-name" style="--n:11">MEGA Charge</h3>
+                <h3 class="w-name" style="--n:8">Hillside</h3>
+                <h3 class="w-name" style="--n:8">Xwift</h3>
+                <h3 class="w-name" style="--n:11">Trendwolves</h3>
+              </div>
+              <div class="w-infos">
+                <div class="w-info" data-tag="E-mobility &amp; charging infrastructure">
+                  <p class="brief">Charging infrastructure, Energy-as-a-Service and software for electric truck fleets, in one ecosystem.</p>
+                  <p class="part">Development of the full site in three languages, built from the supplied design.</p>
+                  <dl><div><dt>Role</dt><dd>Development</dd></div><div><dt>Status</dt><dd>Live</dd></div></dl>
+                  <a class="btn ghost sm" href="https://www.webdrift.be/en/work/megacharge"><span class="btn-l"><span class="rl" aria-label="View project"><span aria-hidden="true">View project</span><span aria-hidden="true">View project</span></span></span></a>
+                </div>
+                <div class="w-info" data-tag="Hospitality">
+                  <p class="brief">Group stays in the Flemish Ardennes, presented with the calm of the stay itself.</p>
+                  <p class="part">Design and development for three residences, their services and experiences, with booking always within reach.</p>
+                  <dl><div><dt>Role</dt><dd>Design &amp; development</dd></div><div><dt>Status</dt><dd>Live</dd></div></dl>
+                  <a class="btn ghost sm" href="https://www.webdrift.be/en/work/hillside-hospitality"><span class="btn-l"><span class="rl" aria-label="View project"><span aria-hidden="true">View project</span><span aria-hidden="true">View project</span></span></span></a>
+                </div>
+                <div class="w-info" data-tag="Transport &amp; logistics">
+                  <p class="brief">A transport and logistics partner with a broad offer that had to read simply.</p>
+                  <p class="part">Design and development of a clear structure for transport, logistics and the company behind them, so a large organisation feels approachable.</p>
+                  <dl><div><dt>Role</dt><dd>Design &amp; development</dd></div><div><dt>Status</dt><dd>Live</dd></div></dl>
+                  <a class="btn ghost sm" href="https://www.webdrift.be/en/work/xwift"><span class="btn-l"><span class="rl" aria-label="View project"><span aria-hidden="true">View project</span><span aria-hidden="true">View project</span></span></span></a>
+                </div>
+                <div class="w-info" data-tag="Youth research &amp; strategy">
+                  <p class="brief">A youth strategy agency that turns the culture of Gen Z and Gen Alpha into direction.</p>
+                  <p class="part">Design and development of a site that explains complex cultural thinking clearly, from insight to action.</p>
+                  <dl><div><dt>Role</dt><dd>Design &amp; development</dd></div><div><dt>Status</dt><dd>Live</dd></div></dl>
+                  <a class="btn ghost sm" href="https://www.webdrift.be/en/work/trendwolves"><span class="btn-l"><span class="rl" aria-label="View project"><span aria-hidden="true">View project</span><span aria-hidden="true">View project</span></span></span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-bar" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+        </div>
+
+        <div class="split" id="split" data-words='["Design.","Development.","Motion.","One studio."]'>
+          <div class="sp-top meta">
+            <span class="lbl"><i aria-hidden="true"></i>One studio</span>
+            <span aria-hidden="true"><span id="spN">04</span> / 04</span>
+          </div>
+          <h2 class="sp-w" aria-label="Design. Development. Motion. One studio.">
+            <span class="sp-cur last" aria-hidden="true">One studio.</span>
+            <span class="sp-h sp-t" aria-hidden="true"></span>
+            <span class="sp-h sp-b" aria-hidden="true"></span>
+          </h2>
+          <div class="sp-bot">
+            <p>Design, development and motion under one roof.</p>
+            <a class="sp-link" href="https://www.webdrift.be/en/work">View all projects <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.21 5.78h7c1.9 0 2.84 0 3.42.58.58.58.59 1.53.59 3.41v7.02M5.78 18.22 16.85 7.15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
       </section>
     </main>
+
+    <footer class="site-foot" id="siteFoot">
+      <span class="ft-glow" aria-hidden="true"></span>
+      <div class="ft-in" id="ftIn">
+        <div class="ft-top meta">
+          <span class="lbl"><i aria-hidden="true"></i>Contact</span>
+          <span>Antwerp <time id="footTime">--:--</time></span>
+        </div>
+        <h2 class="ft-h">A project<br />in mind?</h2>
+        <div class="ft-mid">
+          <div class="ft-mail">
+            <a class="ft-email" href="mailto:hello@webdrift.be">hello@webdrift.be</a>
+            <a class="ft-start" href="https://www.webdrift.be/en/contact">Start a project <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.21 5.78h7c1.9 0 2.84 0 3.42.58.58.58.59 1.53.59 3.41v7.02M5.78 18.22 16.85 7.15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <nav class="ft-nav" aria-label="Pages">
+            <a href="#top">Home</a>
+            <a href="https://www.webdrift.be/en/work">Work</a>
+            <a href="https://www.webdrift.be/en/approach">Approach</a>
+            <a href="https://www.webdrift.be/en/studio">Studio</a>
+            <a href="https://www.webdrift.be/en/contact">Contact</a>
+          </nav>
+          <div class="ft-info meta">
+            <span>Lange Lozanastraat 14</span>
+            <span>2018 Antwerp</span>
+            <span>BE0785.607.750</span>
+            <a class="ft-gap" href="https://www.webdrift.be/en/privacy">Privacy</a>
+            <a href="https://www.webdrift.be/en/cookies">Cookies</a>
+            <span class="lang" role="group" aria-label="Language"><a href="https://www.webdrift.be/" hreflang="nl" lang="nl">NL</a><a href="https://www.webdrift.be/en" hreflang="en" lang="en" aria-current="true">EN</a></span>
+          </div>
+        </div>
+        <div class="ft-bot">
+          <p class="ft-hello"><span class="sr">Hello.</span><span class="tr" id="ftHello" aria-hidden="true"><span>Hello.</span><span>Hallo.</span><span>Bonjour.</span><span>Hola.</span><span>Ciao.</span><span>Hej.</span><span>Olá.</span><span>Hello.</span></span></p>
+          <div class="ft-end meta">
+            <a href="#top">Back to top <svg class="arr arr-up" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.21 5.78h7c1.9 0 2.84 0 3.42.58.58.58.59 1.53.59 3.41v7.02M5.78 18.22 16.85 7.15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <span>© 2026 Webdrift</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Red darkroom "safelight" used while each project photo develops in. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="safelight" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0" />
+        <feComponentTransfer>
+          <feFuncR type="table" tableValues="0.035 0.42 0.84 0.97" />
+          <feFuncG type="table" tableValues="0.03 0.03 0.12 0.88" />
+          <feFuncB type="table" tableValues="0.03 0.06 0.2 0.86" />
+        </feComponentTransfer>
+      </filter>
+    </svg>
   </body>
 </html>
