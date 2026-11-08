@@ -28,6 +28,7 @@
   const approachSteps = [...document.querySelectorAll('[data-approach-step]')];
   const approachMarker = document.querySelector('.approach-marker');
   const paperFade = document.querySelector('.paperfade');
+  const workSection = document.getElementById('work');
   const studioStage = document.querySelector('.studio-stage');
   const studioStatement = document.getElementById('studioStatement');
   const studioFigure = document.querySelector('.studio-figure');
@@ -236,10 +237,14 @@
     const active = rect.top < window.innerHeight && rect.bottom > 76;
     const approachRect = approachSection.getBoundingClientRect();
     const approachActive = approachRect.top < window.innerHeight && approachRect.bottom > 76;
+    const workRect = workSection ? workSection.getBoundingClientRect() : { top: Infinity, bottom: Infinity };
+    const workActive = workRect.top < 76 && workRect.bottom > 76;
+    const contactActive = workRect.bottom <= 76;
     body.classList.toggle('is-studio-active', active);
     body.classList.toggle('is-approach-active', approachActive);
-    introNumber.textContent = approachActive ? '02' : active ? '01' : '00';
-    introTitle.textContent = approachActive ? ' Approach' : active ? ' Studio' : ' Intro';
+    body.classList.toggle('is-work-active', workActive);
+    introNumber.textContent = contactActive ? '04' : workActive ? '03' : approachActive ? '02' : active ? '01' : '00';
+    introTitle.textContent = contactActive ? ' Contact' : workActive ? ' Work' : approachActive ? ' Approach' : active ? ' Studio' : ' Intro';
 
     const travel = Math.max(1, studioSection.offsetHeight - studioStage.getBoundingClientRect().height);
     const sectionTop = rect.top + window.scrollY;
@@ -438,7 +443,265 @@
     setActiveApproachStep(approachTimeline.time());
   }
 
-  waitForImage(macintoshImage).then(() => createApproachTimeline());
+  /* ------------------------------------------------------------------------
+     Continuation after the Macintosh zoom.
+     The approach timeline above ends with .paperfade at full opacity: the CRT
+     has whited out into paper. The pin then releases straight into the
+     paper-coloured Selected work section, so the white screen *is* the top of
+     the next section. Order from the reference: Selected work heading →
+     pinned project slideshow → "One studio." word cycler → contact footer.
+     ------------------------------------------------------------------------ */
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  function splitChars(element) {
+    if (!element) return [];
+    const words = element.textContent.trim().split(/\s+/);
+    element.replaceChildren();
+    const chars = [];
+    words.forEach((word, wordIndex) => {
+      const wrap = document.createElement('span');
+      wrap.setAttribute('aria-hidden', 'true');
+      wrap.style.cssText = 'display:inline-block;white-space:nowrap';
+      [...word].forEach((letter) => {
+        const ch = document.createElement('span');
+        ch.className = 'ch';
+        ch.textContent = letter;
+        wrap.append(ch);
+        chars.push(ch);
+      });
+      element.append(wrap);
+      if (wordIndex < words.length - 1) element.append(' ');
+    });
+    return chars;
+  }
+
+  function createWorkHeading() {
+    const heading = document.getElementById('workHeading');
+    const chars = splitChars(heading);
+    if (reducedMotion || !chars.length) return;
+    // Letters develop from red to ink as the heading rises out of the whiteout.
+    gsap.fromTo(chars,
+      { color: '#c40f35', fontWeight: 300 },
+      {
+        color: '#0c0b0b', fontWeight: 600, ease: 'none', stagger: 0.04,
+        scrollTrigger: { trigger: heading, start: 'top 88%', end: 'bottom 55%', scrub: 0.5 }
+      });
+  }
+
+  function createWorkTimeline() {
+    const stage = document.getElementById('stage');
+    if (!stage) return;
+    const shots = [...stage.querySelectorAll('.shot')];
+    const names = [...stage.querySelectorAll('.w-name')];
+    const infos = [...stage.querySelectorAll('.w-info')];
+    const indexButtons = [...stage.querySelectorAll('#wIndex button')];
+    const bars = [...stage.querySelectorAll('.w-bar b')];
+    const slit = stage.querySelector('.w-slit');
+    const counter = document.getElementById('wCur');
+    const sector = document.getElementById('wSector');
+    const total = shots.length;
+    let current = 0;
+
+    function showProject(index) {
+      if (index === current) return;
+      const direction = index > current ? 1 : -1;
+      current = index;
+      const outgoing = counter.lastElementChild;
+      const incoming = document.createElement('span');
+      incoming.textContent = pad2(index + 1);
+      counter.append(incoming);
+      gsap.fromTo(incoming, { yPercent: 100 * direction }, { yPercent: 0, duration: 0.7, ease: 'expo.out' });
+      gsap.to(outgoing, { yPercent: -100 * direction, duration: 0.7, ease: 'expo.out', onComplete: () => outgoing.remove() });
+      indexButtons.forEach((button, i) => button.classList.toggle('on', i === index));
+      if (infos[index]) sector.textContent = infos[index].dataset.tag || '';
+    }
+
+    if (reducedMotion) {
+      // No pin: the index switches projects directly.
+      indexButtons.forEach((button, i) => button.addEventListener('click', () => {
+        shots.forEach((shot, s) => { shot.style.clipPath = s === i ? 'inset(0 0 0 0)' : 'inset(50% 0 50% 0)'; });
+        names.forEach((name, s) => { name.style.visibility = s === i ? 'visible' : 'hidden'; });
+        infos.forEach((info, s) => { info.style.opacity = s === i ? 1 : 0; info.style.visibility = s === i ? 'visible' : 'hidden'; });
+        showProject(i);
+      }));
+      return;
+    }
+
+    gsap.set(names, { yPercent: 140, autoAlpha: 1 });
+    gsap.set(names[0], { yPercent: 0 });
+    gsap.set(infos, { autoAlpha: 0 });
+    gsap.set(infos[0], { autoAlpha: 1 });
+    gsap.set(shots[0].querySelector('.safe'), { opacity: 1 });
+
+    const workTimeline = gsap.timeline({
+      defaults: { ease: 'none' },
+      onUpdate: () => showProject(Math.max(0, Math.min(total - 1, Math.floor(workTimeline.time() - 0.3)))),
+      scrollTrigger: {
+        id: 'work-stage',
+        trigger: stage,
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * (total + 0.4) * 1.15),
+        pin: true,
+        scrub: 0.6,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      }
+    });
+
+    // First photo develops under the red safelight while its progress bar fills.
+    workTimeline
+      .to(shots[0].querySelector('.safe'), { opacity: 0, duration: 0.7 }, 0)
+      .fromTo(shots[0].querySelector('.dev img'), { scale: 1.14 }, { scale: 1, duration: 1 }, 0)
+      .to(bars[0], { scaleX: 1, duration: 1 }, 0);
+
+    for (let i = 1; i < total; i += 1) {
+      const t = i;
+      workTimeline
+        .fromTo(slit, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.18, ease: 'power2.inOut', immediateRender: false }, t - 0.05)
+        .fromTo(shots[i], { clipPath: 'inset(50% 0% 50% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.45, ease: 'power3.inOut', immediateRender: false }, t + 0.08)
+        .to(slit, { opacity: 0, duration: 0.12 }, t + 0.16)
+        .fromTo(shots[i - 1].querySelector('.dev img'), { scale: 1 }, { scale: 0.92, duration: 0.5, immediateRender: false }, t + 0.08)
+        .fromTo(shots[i].querySelector('.dev img'), { scale: 1.28 }, { scale: 1, duration: 0.9, ease: 'power2.out', immediateRender: false }, t + 0.08)
+        .fromTo(shots[i].querySelector('.safe'), { opacity: 1 }, { opacity: 0, duration: 0.7, immediateRender: false }, t + 0.3)
+        .fromTo(names[i - 1], { yPercent: 0 }, { yPercent: -140, duration: 0.3, ease: 'power2.in', immediateRender: false }, t)
+        .fromTo(names[i], { yPercent: 140 }, { yPercent: 0, duration: 0.4, ease: 'power3.out', immediateRender: false }, t + 0.22)
+        .fromTo(infos[i - 1], { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -14, duration: 0.2, immediateRender: false }, t + 0.12)
+        .fromTo(infos[i], { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.3, immediateRender: false }, t + 0.35)
+        .to(bars[i], { scaleX: 1, duration: 1 }, t);
+    }
+    workTimeline.to({}, { duration: 0.4 });
+
+    // Scroll position for project i inside the pin (same anchors as the reference).
+    const projectScroll = (trigger, i) => {
+      const progress = i ? (i + 0.75) / workTimeline.duration() : 0;
+      return Math.round(trigger.start + (trigger.end - trigger.start) * progress);
+    };
+
+    // Settle on the nearest project once scrolling stops inside the pin.
+    let settleTimer = null;
+    let touching = false;
+    const settle = () => {
+      const trigger = ScrollTrigger.getById('work-stage');
+      if (!trigger || touching) return;
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      if (y < trigger.start - vh * 0.35 || y > trigger.end + vh * 0.2) return;
+      const targets = shots.map((_, i) => projectScroll(trigger, i)).concat(Math.round(trigger.end));
+      const nearest = targets.reduce((a, b) => (Math.abs(b - y) < Math.abs(a - y) ? b : a));
+      if (Math.abs(nearest - y) >= 2) window.scrollTo({ top: nearest, behavior: 'smooth' });
+    };
+    const queueSettle = () => { clearTimeout(settleTimer); settleTimer = setTimeout(settle, 180); };
+    window.addEventListener('scroll', queueSettle, { passive: true });
+    window.addEventListener('touchstart', () => { touching = true; clearTimeout(settleTimer); }, { passive: true });
+    window.addEventListener('touchend', () => { touching = false; queueSettle(); }, { passive: true });
+
+    indexButtons.forEach((button, i) => button.addEventListener('click', () => {
+      const trigger = ScrollTrigger.getById('work-stage');
+      if (trigger) window.scrollTo({ top: projectScroll(trigger, i) + 2, behavior: 'smooth' });
+    }));
+  }
+
+  function createSplitWords() {
+    const split = document.getElementById('split');
+    if (!split) return;
+    const words = JSON.parse(split.dataset.words);
+    const currentWord = split.querySelector('.sp-cur');
+    const number = document.getElementById('spN');
+    const halves = [...split.querySelectorAll('.sp-h')];
+    const setWord = (node, i) => { node.textContent = words[i]; node.classList.toggle('last', i === words.length - 1); };
+    let index = 0;
+    let visible = false;
+    let interval = null;
+    let delay = null;
+    setWord(currentWord, 0);
+    number.textContent = '01';
+    if (reducedMotion) return;
+
+    // The outgoing word is copied into two paper halves that slide apart.
+    const advance = () => {
+      if (!visible || document.hidden) return;
+      halves.forEach((half) => setWord(half, index));
+      index = (index + 1) % words.length;
+      setWord(currentWord, index);
+      number.textContent = pad2(index + 1);
+      gsap.killTweensOf(halves);
+      gsap.set(halves, { xPercent: 0, autoAlpha: 1 });
+      gsap.to(halves[0], { xPercent: -105, duration: 0.9, ease: 'expo.inOut' });
+      gsap.to(halves[1], { xPercent: 105, duration: 0.9, ease: 'expo.inOut' });
+    };
+    const stop = () => { clearTimeout(delay); clearInterval(interval); delay = interval = null; };
+    new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+      if (visible && !interval && !delay) {
+        delay = setTimeout(() => { delay = null; advance(); interval = setInterval(advance, 1700); }, 350);
+      } else if (!visible) stop();
+    }, { threshold: 0.35 }).observe(split);
+  }
+
+  function createFooter() {
+    const footer = document.getElementById('siteFoot');
+    const footerInner = document.getElementById('ftIn');
+    const footTime = document.getElementById('footTime');
+    const hello = document.getElementById('ftHello');
+    if (!footer) return;
+
+    const updateFootTime = () => { footTime.textContent = timeOutput.textContent; };
+    updateFootTime();
+    window.setInterval(updateFootTime, 30000);
+
+    // Sticky reveal only when the footer fits the viewport.
+    const isSticky = () => {
+      document.documentElement.classList.toggle('ft-static', footer.offsetHeight > window.innerHeight + 1);
+      return getComputedStyle(footer).position === 'sticky';
+    };
+    let sticky = isSticky();
+    const parallax = () => {
+      if (reducedMotion || !sticky) return;
+      const mainBottom = document.querySelector('main').getBoundingClientRect().bottom;
+      const uncovered = Math.min(1, Math.max(0, (window.innerHeight - mainBottom) / (footer.offsetHeight || 1)));
+      gsap.set(footerInner, { y: Math.round(80 * (1 - uncovered)) });
+    };
+    parallax();
+    window.addEventListener('scroll', parallax, { passive: true });
+    window.addEventListener('resize', () => {
+      sticky = isSticky();
+      if (!sticky) gsap.set(footerInner, { clearProps: 'transform' });
+      parallax();
+    });
+
+    if (hello && !reducedMotion) {
+      const last = hello.children.length - 1;
+      let step = 0;
+      let inView = false;
+      new IntersectionObserver((entries) => { inView = entries[0].isIntersecting; }).observe(hello.parentElement);
+      window.setInterval(() => {
+        if (!inView || document.hidden) return;
+        step += 1;
+        gsap.to(hello, {
+          yPercent: (-100 * step) / (last + 1), duration: 0.9, ease: 'expo.inOut',
+          onComplete: () => { if (step >= last) { step = 0; gsap.set(hello, { yPercent: 0 }); } }
+        });
+      }, 2200);
+    }
+  }
+
+  function createContinuation() {
+    if (!window.gsap || !window.ScrollTrigger) return;
+    gsap.registerPlugin(ScrollTrigger);
+    createWorkHeading();
+    createWorkTimeline();
+    createSplitWords();
+    createFooter();
+    ScrollTrigger.refresh();
+  }
+
+  // The work pin is created after the approach pin so ScrollTrigger lays them out in page order.
+  waitForImage(macintoshImage).then(() => {
+    createApproachTimeline();
+    createContinuation();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  });
   window.addEventListener('scroll', requestStudioUpdate, { passive: true });
   window.addEventListener('resize', requestStudioUpdate, { passive: true });
   requestStudioUpdate();
